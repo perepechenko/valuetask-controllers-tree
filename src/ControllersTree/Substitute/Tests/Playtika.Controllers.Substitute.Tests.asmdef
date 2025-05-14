@@ -1,0 +1,15 @@
+{
+    "name": "Playtika.Controllers.Substitute.Tests",
+    "references": [
+        "Playtika.Controllers",
+        "Playtika.Controllers.Substitute",
+        "UniTask"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "testAssemblies": true
+}

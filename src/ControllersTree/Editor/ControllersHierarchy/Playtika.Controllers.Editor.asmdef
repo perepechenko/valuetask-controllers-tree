@@ -1,0 +1,12 @@
+{
+  "name": "Playtika.Controllers.Editor",
+  "references": [
+    "Playtika.Controllers"
+  ],
+  "optionalUnityReferences": [],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false
+}

@@ -39,14 +39,8 @@ namespace Playtika.Controllers
             while (!cancellationToken.IsCancellationRequested)
             {
                 await UniTask.Yield(PlayerLoopTiming.LastUpdate);
-                var st = new Stopwatch();
-                st.Start();
                 PushToProfilerStream();
-                st.Stop();
-                UnityEngine.Debug.Log($"Collecting controllers snapshot took {st.ElapsedMilliseconds} ms");
             }
-
-            UnityEngine.Debug.Log("Controller profiler finished");
         }
 
         private void PushToProfilerStream()

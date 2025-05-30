@@ -33,8 +33,8 @@ namespace Playtika.Controllers
                 return;
             }
 
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(source);
-            int bytesToCopy = Math.Min(bytes.Length, maxLength - 1);
+            var bytes = System.Text.Encoding.UTF8.GetBytes(source);
+            var bytesToCopy = Math.Min(bytes.Length, maxLength - 1);
 
             for (int i = 0; i < bytesToCopy; i++)
             {
@@ -44,10 +44,9 @@ namespace Playtika.Controllers
             destination[bytesToCopy] = 0;
         }
 
-        public static unsafe string GetStringFromFixedBytes(byte* source)
+        private static unsafe string GetStringFromFixedBytes(byte* source)
         {
-            int byteLength = 0;
-
+            var byteLength = 0;
             while (source[byteLength] != 0)
             {
                 byteLength++;
@@ -58,7 +57,7 @@ namespace Playtika.Controllers
 
         public static implicit operator FixedString(string value)
         {
-            FixedString result = new FixedString();
+            var result = new FixedString();
             result.Set(value);
             return result;
         }

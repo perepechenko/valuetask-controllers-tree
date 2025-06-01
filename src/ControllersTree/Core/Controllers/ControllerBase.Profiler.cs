@@ -55,7 +55,7 @@ namespace Playtika.Controllers
             }
 
             var nameHash = name.GetHashCode();
-            var data = new NativeArray<CreateControllerFrameData>(1, Allocator.Temp);
+            var data = new NativeArray<CreateControllerFrameData>(1, Allocator.Persistent);
             data[0] = new CreateControllerFrameData()
             {
                 NameHash = nameHash,
@@ -70,7 +70,7 @@ namespace Playtika.Controllers
                 return;
             }
 
-            var nameData = new NativeArray<NameSessionData>(1, Allocator.Temp);
+            var nameData = new NativeArray<NameSessionData>(1, Allocator.Persistent);
             nameData[0] = new NameSessionData()
             {
                 NameHash = nameHash,
@@ -88,7 +88,7 @@ namespace Playtika.Controllers
                 return;
             }
 
-            var data = new NativeArray<StopControllerFrameData>(1, Allocator.Temp);
+            var data = new NativeArray<StopControllerFrameData>(1, Allocator.Persistent);
             data[0] = new StopControllerFrameData()
             {
                 NameHash = name.GetHashCode(),

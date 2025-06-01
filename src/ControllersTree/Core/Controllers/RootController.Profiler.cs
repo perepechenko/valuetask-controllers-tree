@@ -56,7 +56,7 @@ namespace Playtika.Controllers
             _createdThisFrameCount = 0;
 
             var count = _activeCount;
-            var frameData = new NativeArray<RunControllerFrameData>(count, Allocator.Temp);
+            var frameData = new NativeArray<RunControllerFrameData>(count, Allocator.Persistent);
             var frameDataIndex = 0;
             ProfilerDumpTree((ControllerBase) this, frameData, ref frameDataIndex, 0);
             Profiler.EmitFrameMetaData(Helper.ControllerProfilerGuid, Helper.ControllerRunTag, frameData);
@@ -97,7 +97,7 @@ namespace Playtika.Controllers
 
         private static void PushScopeNameToStream(string name, int nameHash)
         {
-            var nameData = new NativeArray<NameSessionData>(1, Allocator.Temp);
+            var nameData = new NativeArray<NameSessionData>(1, Allocator.Persistent);
             nameData[0] = new NameSessionData()
             {
                 NameHash = nameHash,

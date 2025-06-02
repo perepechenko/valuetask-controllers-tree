@@ -17,6 +17,7 @@ namespace Modules.Controller.Editor
     {
         private Color LightGray = new Color(0.827f, 0.827f, 0.827f);
         const int ItemHeight = 16;
+        private TextField _searchField;
         private VisualElement _leftElem;
         private VisualElement _rightElement;
         private VisualElement _leftContainer;
@@ -27,7 +28,9 @@ namespace Modules.Controller.Editor
         private readonly HashSet<int> _createdControllers = new();
         private readonly List<ControllerData> _createdAndDestroyedControllersList = new List<ControllerData>(256);
         private readonly List<ControllerLiveData> _liveControllersList = new List<ControllerLiveData>(256);
+        private readonly List<ControllerLiveData> _filteredLiveControllersList = new List<ControllerLiveData>(256);
         private readonly Dictionary<int, Color> _contextColorMap = new();
+        private string _currentSearchFilter = string.Empty;
 
         public ControllersProfilerModuleViewController(ProfilerWindow profilerWindow)
             : base(profilerWindow)
@@ -54,6 +57,9 @@ namespace Modules.Controller.Editor
             _liveControllersListView = new LiveControllersListView(_liveControllersList);
             _rightContainer.Add(_liveControllersListView);
 
+            var searchField = CreateSearchField();
+            _rightContainer.Add(searchField);
+
             _createdAndDestroyedControllersListView = new CreatedAndDestroyedControllersListView(_createdAndDestroyedControllersList);
             _leftContainer.Add(_createdAndDestroyedControllersListView);
 
@@ -79,6 +85,60 @@ namespace Modules.Controller.Editor
             ProfilerWindow.SelectedFrameIndexChanged -= OnSelectedFrameIndexChanged;
 
             base.Dispose(true);
+        }
+
+        private VisualElement CreateSearchField()
+        {
+            var searchContainer = new VisualElement();
+            searchContainer.style.flexDirection = FlexDirection.Row;
+            searchContainer.style.paddingBottom = 5;
+            searchContainer.style.paddingTop = 5;
+            searchContainer.style.paddingLeft = 5;
+            searchContainer.style.paddingRight = 5;
+            searchContainer.style.flexShrink = 0;
+
+            var searchLabel = new Label("Filter:");
+            searchLabel.style.width = 50;
+            searchLabel.style.unityTextAlign = TextAnchor.MiddleLeft;
+
+            _searchField = new TextField();
+            _searchField.style.flexGrow = 1;
+            _searchField.RegisterValueChangedCallback(OnSearchValueChanged);
+
+            searchContainer.Add(searchLabel);
+            searchContainer.Add(_searchField);
+
+            return searchContainer;
+        }
+
+        private void OnSearchValueChanged(ChangeEvent<string> evt)
+        {
+            _currentSearchFilter = evt.newValue?.ToLower() ?? string.Empty;
+            ApplySearchFilter();
+        }
+
+        private void ApplySearchFilter()
+        {
+            _filteredLiveControllersList.Clear();
+
+            if (string.IsNullOrEmpty(_currentSearchFilter))
+            {
+                _filteredLiveControllersList.AddRange(_liveControllersList);
+            }
+            else
+            {
+                foreach (var controller in _liveControllersList)
+                {
+                    if (controller.ControllerName.ToLower().Contains(_currentSearchFilter) ||
+                        controller.ScopeName.ToLower().Contains(_currentSearchFilter))
+                    {
+                        _filteredLiveControllersList.Add(controller);
+                    }
+                }
+            }
+
+            _liveControllersListView.itemsSource = _filteredLiveControllersList;
+            _liveControllersListView.Rebuild();
         }
 
         private string GetControllerName(int hash, RawFrameDataView frameData)
@@ -145,8 +205,7 @@ namespace Modules.Controller.Editor
 
             _liveControllersList.Clear();
             GetLiveControllers(frameData, _liveControllersList);
-            _liveControllersListView.itemsSource = _liveControllersList;
-            _liveControllersListView.Rebuild();
+            ApplySearchFilter();
         }
 
         private void GetLiveControllers(RawFrameDataView frameData, List<ControllerLiveData> controllers)

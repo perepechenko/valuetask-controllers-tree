@@ -13,6 +13,7 @@ We thank the following people for their contributions (in alphabetical order):
 - Aliaksandr Shchamialiou
 - Andrei Batseka
 - Andrei Navoichyk
+- Andrew Chaiko
 - Andrey Makarevich
 - Artem Svirid
 - Artur Sushkov

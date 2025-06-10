@@ -1,4 +1,4 @@
-#if UNITY_CONTROLLERS_PROFILER
+#if CONTROLLERS_PROFILER
 namespace Modules.Controller.Editor
 {
     internal sealed class ControllerData

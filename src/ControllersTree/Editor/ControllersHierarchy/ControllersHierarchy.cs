@@ -18,9 +18,9 @@ namespace Playtika.Controllers.Editor
             GetWindow<ControllersHierarchy>("Controllers Hierarchy");
         }
         
-        private const string UnityControllerProfilerDefine = "UNITY_CONTROLLERS_PROFILER";
-#if UNITY_CONTROLLERS_PROFILER
-        [MenuItem("Tools/Controllers/Disable UNITY_CONTROLLERS_PROFILER define", priority = 103)]
+        private const string UnityControllerProfilerDefine = "CONTROLLERS_PROFILER";
+#if CONTROLLERS_PROFILER
+        [MenuItem("Tools/Controllers/Disable CONTROLLERS_PROFILER define", priority = 103)]
         public static void DisableUnityControllerProfilerDefine()
         {
             var buildTarget = EditorUserBuildSettings.selectedBuildTargetGroup;
@@ -30,7 +30,7 @@ namespace Playtika.Controllers.Editor
             PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTarget, definesList.ToArray());
         }
 #else
-        [MenuItem("Tools/Controllers/Enable UNITY_CONTROLLERS_PROFILER define", priority = 103)]
+        [MenuItem("Tools/Controllers/Enable CONTROLLERS_PROFILER define", priority = 103)]
         public static void EnableUnityControllerProfilerDefine()
         {
             var buildTarget = EditorUserBuildSettings.selectedBuildTargetGroup;

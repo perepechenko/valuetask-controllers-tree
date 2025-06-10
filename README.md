@@ -305,8 +305,8 @@ public class FeatureController2a : ControllerWithResultBase
     
     protected override void OnStop()
     {
-        base.OnStop();
         _engineEvents.Win -= OnWin;
+        base.OnStop();
     }
     
     private void OnWin()
@@ -395,7 +395,7 @@ Alternatively, you can replace any controllers with mocks (for controllers with 
 ```
 ```csharp
 [Test]
-public async Task LevelFlowController_ExecuteAndWaitResult_OOMEventAddMoves()
+public async Task FeatureController2_ExecuteAndWaitResult_NoExceptionThrown()
 {
     var substituteControllerFactory = new SubstituteControllerFactory();
     var myModelMock = Substitute.For<IMyModel>();

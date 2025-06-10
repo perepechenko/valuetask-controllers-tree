@@ -1,8 +1,8 @@
 {
     "name": "com.playtika.controllers-tree",
     "displayName": "ControllersTree",
-    "version": "1.0.0",
-    "unity": "2018.3",
+    "version": "1.1.0",
+    "unity": "2021.3",
     "description": "Framework for organising game logic into scalable, maintainable hierarchies of controllers.",
     "keywords": ["Unity", "HMVC", "controllers-tree", "Hierarchy of controllers", "Unity controllers"],
     "documentationUrl": "https://github.com/PlaytikaOSS/controllers-tree/blob/main/README.md"

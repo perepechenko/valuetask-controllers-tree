@@ -3,7 +3,7 @@
 
 Добавьте следующую строку после строки "dependencies": {
 ```json
-"com.playtika.controllers-tree": "https://github.com/PlaytikaOSS/controllers-tree.git?path=src/ControllersTree#v1.0.0",
+"com.playtika.controllers-tree": "https://github.com/PlaytikaOSS/controllers-tree.git?path=src/ControllersTree#v1.1.0",
 ```
 Перезагрузите проект, и UPM установит пакет.
 

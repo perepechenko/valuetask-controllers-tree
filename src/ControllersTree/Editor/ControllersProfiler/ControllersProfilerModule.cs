@@ -1,4 +1,4 @@
-#if UNITY_CONTROLLERS_PROFILER
+#if CONTROLLERS_PROFILER
 using Playtika.Controllers;
 using Unity.Profiling;
 using Unity.Profiling.Editor;

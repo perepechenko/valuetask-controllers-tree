@@ -28,7 +28,7 @@ Install via UPM and the Git URL:
 Navigate to your project Packages folder and modify the manifest.json file.
 Add this line below the "dependencies": { line
 ```json
-"com.playtika.valuetask-controllers-tree": "https://github.com/perepechenko/valuetask-controllers-tree.git",
+"com.playtika.valuetask-controllers-tree": "https://github.com/perepechenko/valuetask-controllers-tree.git?path=src/ControllersTree",
 ```
 Reload the project and UPM will install the package.
 

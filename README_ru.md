@@ -3,7 +3,7 @@
 
 Добавьте следующую строку после строки "dependencies": {
 ```json
-"com.playtika.valuetask-controllers-tree": "https://github.com/perepechenko/valuetask-controllers-tree.git",
+"com.playtika.valuetask-controllers-tree": "https://github.com/perepechenko/valuetask-controllers-tree.git?path=src/ControllersTree",
 ```
 Перезагрузите проект, и UPM установит пакет.
 

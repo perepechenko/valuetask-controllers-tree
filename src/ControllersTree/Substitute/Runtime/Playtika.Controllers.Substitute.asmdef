@@ -2,7 +2,6 @@
     "name": "Playtika.Controllers.Substitute",
     "rootNamespace": "",
     "references": [
-        "UniTask",
         "Playtika.Controllers"
     ],
     "includePlatforms": [],
@@ -11,7 +10,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
+    "defineConstraints": [],
     "versionDefines": [],
-    "noEngineReferences": false,
-    "testAssemblies": true
+    "noEngineReferences": false
 }

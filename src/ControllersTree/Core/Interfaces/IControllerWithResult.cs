@@ -1,13 +1,14 @@
 using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Playtika.Controllers
 {
     public interface IControllerWithResult<TResult> : IController
     {
-        internal UniTask FlowAsync(CancellationToken cancellationToken);
-        internal UniTask<TResult> GetResult(CancellationToken token);
+        internal ValueTask FlowAsync(CancellationToken cancellationToken);
+        internal ValueTask<TResult> GetResult(CancellationToken token);
         internal void FailInternal(Exception exception);
     }
 }

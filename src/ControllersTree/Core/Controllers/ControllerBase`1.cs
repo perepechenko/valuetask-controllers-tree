@@ -4,8 +4,8 @@
     {
         protected TArg Args { get; private set; } = default;
 
-        protected ControllerBase(IControllerFactory controllerFactory)
-            : base(controllerFactory)
+        protected ControllerBase(IControllerFactory controllerEnvironment)
+            : base(controllerEnvironment)
         {
         }
 

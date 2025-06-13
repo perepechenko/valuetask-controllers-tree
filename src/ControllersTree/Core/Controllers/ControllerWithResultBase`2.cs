@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Playtika.Controllers
 {
     public abstract partial class ControllerWithResultBase<TArg, TResult> : ControllerBase<TArg>, IControllerWithResult<TResult>
     {
-        private readonly UniTaskCompletionSource<TResult> _resultSource = new UniTaskCompletionSource<TResult>();
+        private readonly TaskCompletionSource<TResult> _resultSource = new TaskCompletionSource<TResult>();
         private ControllerWithResultState _withResultState;
 
-        protected ControllerWithResultBase(IControllerFactory controllerFactory)
-            : base(controllerFactory)
+        protected ControllerWithResultBase(IControllerFactory controllerEnvironment)
+            : base(controllerEnvironment)
         {
         }
 
-        async UniTask IControllerWithResult<TResult>.FlowAsync(CancellationToken cancellationToken)
+        async ValueTask IControllerWithResult<TResult>.FlowAsync(CancellationToken cancellationToken)
         {
             switch (_withResultState)
             {
@@ -35,7 +36,7 @@ namespace Playtika.Controllers
             }
         }
 
-        async UniTask<TResult> IControllerWithResult<TResult>.GetResult(CancellationToken token)
+        async ValueTask<TResult> IControllerWithResult<TResult>.GetResult(CancellationToken token)
         {
             switch (_withResultState)
             {
@@ -67,9 +68,9 @@ namespace Playtika.Controllers
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns></returns>
-        protected virtual UniTask OnFlowAsync(CancellationToken cancellationToken)
+        protected virtual ValueTask OnFlowAsync(CancellationToken cancellationToken)
         {
-            return UniTask.CompletedTask;
+            return default;
         }
 
         /// <summary>

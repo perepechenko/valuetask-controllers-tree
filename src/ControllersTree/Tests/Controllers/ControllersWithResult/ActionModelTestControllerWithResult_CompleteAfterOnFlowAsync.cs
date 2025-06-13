@@ -1,6 +1,7 @@
 using System.Threading;
+using System.Threading.Tasks;
 using Playtika.Controllers;
-using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace UnitTests.Controllers
 {
@@ -13,15 +14,15 @@ namespace UnitTests.Controllers
         {
         }
 
-        protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+        protected override async ValueTask OnFlowAsync(CancellationToken cancellationToken)
         {
             await base.OnFlowAsync(cancellationToken);
-            AfterFlowAsync(cancellationToken).Forget();
+            _ = AfterFlowAsync(cancellationToken);
         }
 
-        private async UniTask AfterFlowAsync(CancellationToken cancellationToken)
+        private async ValueTask AfterFlowAsync(CancellationToken cancellationToken)
         {
-            await UniTask.Delay(10, cancellationToken: cancellationToken);
+            await Task.Delay(10, cancellationToken: cancellationToken);
             Complete(new TestEmptyControllerResult(Args.InputString));
         }
     }

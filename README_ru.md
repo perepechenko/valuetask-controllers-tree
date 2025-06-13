@@ -3,12 +3,9 @@
 
 Добавьте следующую строку после строки "dependencies": {
 ```json
-"com.playtika.controllers-tree": "https://github.com/PlaytikaOSS/controllers-tree.git?path=src/ControllersTree#v1.1.0",
+"com.playtika.valuetask-controllers-tree": "https://github.com/perepechenko/valuetask-controllers-tree.git",
 ```
 Перезагрузите проект, и UPM установит пакет.
-
-## Зависимости
-Фреймворк использует [UniTask](https://github.com/Cysharp/UniTask) для эффективной работы с асинхронным кодом.
 
 ## Зачем всё это надо, почему HMVC/HMVP ?
 Обычно в Unity для разработки игр используется самый простой способ, который предлагает сама Unity - это компонентно-ориентированное программирование (пока не рассматриваем ECS). 
@@ -158,14 +155,14 @@ var result = await ExecuteAndWaitResultAsync<MyControllerWithResult, MyControlle
 - **void Execute<T>(IControllerFactory factory)** - запустить дочерний контроллер ControllerBase с новой фабрикой контроллеров.
 - **void Execute<T, TArg>(TArg arg, IControllerFactory factory)** - запустить дочерний контроллер ControllerBase с аргументами TArg и новой фабрикой контроллеров.
 
-- **UniTask ExecuteAndWaitResultAsync<T>(CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase и дождаться его завершения. CancellationToken позволяет отменить ожидание.
-- **UniTask ExecuteAndWaitResultAsync<T, TArg>(TArg arg, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase с аргументами TArg и дождаться его завершения. CancellationToken позволяет отменить ожидание.
-- **UniTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase и дождаться его завершения с результатом TResult. CancellationToken позволяет отменить ожидание.
-- **UniTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(TArg arg, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase с аргументами TArg и дождаться его завершения с результатом TResult. CancellationToken позволяет отменить ожидание.
-- **UniTask ExecuteAndWaitResultAsync<T>(IControllerFactory factory, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase c новой фабрикой контроллеров и дождаться его завершения. CancellationToken позволяет отменить ожидание.
-- **UniTask ExecuteAndWaitResultAsync<T, TArg>(TArg arg, IControllerFactory factory, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase с аргументами TArg и новой фабрикой контроллеров, и дождаться его завершения. CancellationToken позволяет отменить ожидание.
-- **UniTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(IControllerFactory factory, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase c новой фабрикой контроллеров и дождаться его завершения с результатом TResult. CancellationToken позволяет отменить ожидание.
-- **UniTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(TArg arg, IControllerFactory factory, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase с аргументами TArg  и новой фабрикой контроллеров, и дождаться его завершения с результатом TResult. CancellationToken позволяет отменить ожидание.
+- **ValueTask ExecuteAndWaitResultAsync<T>(CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase и дождаться его завершения. CancellationToken позволяет отменить ожидание.
+- **ValueTask ExecuteAndWaitResultAsync<T, TArg>(TArg arg, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase с аргументами TArg и дождаться его завершения. CancellationToken позволяет отменить ожидание.
+- **ValueTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase и дождаться его завершения с результатом TResult. CancellationToken позволяет отменить ожидание.
+- **ValueTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(TArg arg, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase с аргументами TArg и дождаться его завершения с результатом TResult. CancellationToken позволяет отменить ожидание.
+- **ValueTask ExecuteAndWaitResultAsync<T>(IControllerFactory factory, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase c новой фабрикой контроллеров и дождаться его завершения. CancellationToken позволяет отменить ожидание.
+- **ValueTask ExecuteAndWaitResultAsync<T, TArg>(TArg arg, IControllerFactory factory, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase с аргументами TArg и новой фабрикой контроллеров, и дождаться его завершения. CancellationToken позволяет отменить ожидание.
+- **ValueTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(IControllerFactory factory, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase c новой фабрикой контроллеров и дождаться его завершения с результатом TResult. CancellationToken позволяет отменить ожидание.
+- **ValueTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(TArg arg, IControllerFactory factory, CancellationToken cancellationToken)** - запустить дочерний контроллер ControllerWithResultBase с аргументами TArg  и новой фабрикой контроллеров, и дождаться его завершения с результатом TResult. CancellationToken позволяет отменить ожидание.
 
 По своей сути, все методы с префиксом **Execute** запускают дочерний контроллер, **ExecuteAndWaitResultAsync** также ожидают его результат исполнения.
 Отличаются наличием параметров и возвращаемым типом, по сути же это одни и те же методы, в которых скрыты неиспользуемые параметры.
@@ -180,7 +177,7 @@ var result = await ExecuteAndWaitResultAsync<MyControllerWithResult, MyControlle
 
 Методы:
 - **Complete(TResult result)** - завершить работу контроллера и вернуть результат TResult вызвавшему контроллеру.
-- **UniTask OnFlowAsync(CancellationToken cancellationToken)** - виртуальный метод, вызывается после OnStart. Тут происходит основная работа контроллера.
+- **ValueTask OnFlowAsync(CancellationToken cancellationToken)** - виртуальный метод, вызывается после OnStart. Тут происходит основная работа контроллера.
 
 ### ControllerWithResultBase : ControllerWithResultBase<EmptyControllerArgs, EmptyControllerResult>
 
@@ -211,7 +208,7 @@ var result = await ExecuteAndWaitResultAsync<MyControllerWithResult, MyControlle
 public class FeatureRootController : ControllerWithResultBase
 {
     ...
-    protected override UniTask OnFlowAsync(CancellationToken cancellationToken)
+    protected override ValueTask OnFlowAsync(CancellationToken cancellationToken)
     {
         try
         {
@@ -232,7 +229,7 @@ public class FeatureController2b : ControllerWithResultBase
 {
     ...
 
-    protected override UniTask OnFlowAsync(CancellationToken cancellationToken)
+    protected override ValueTask OnFlowAsync(CancellationToken cancellationToken)
     {
         throw new Exception("Exception in FeatureController2b");
     }
@@ -255,7 +252,7 @@ public class FeatureController2 : ControllerWithResultBase
 {
     ...
 
-    protected override UniTask OnFlowAsync(CancellationToken cancellationToken)
+    protected override ValueTask OnFlowAsync(CancellationToken cancellationToken)
     {
         try
         {

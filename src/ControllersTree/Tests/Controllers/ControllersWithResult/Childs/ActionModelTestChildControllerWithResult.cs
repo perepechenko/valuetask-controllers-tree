@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Playtika.Controllers;
-using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace UnitTests.Controllers
 {
@@ -28,7 +28,7 @@ namespace UnitTests.Controllers
             TestChildControllersActionModel.TriggerChildStart(TestControllerGuid);
         }
 
-        protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+        protected override async ValueTask OnFlowAsync(CancellationToken cancellationToken)
         {
             base.OnFlowAsync(cancellationToken);
             await Task.Delay(50, cancellationToken).ConfigureAwait(false);

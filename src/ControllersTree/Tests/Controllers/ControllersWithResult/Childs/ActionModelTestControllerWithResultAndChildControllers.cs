@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Playtika.Controllers;
-using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace UnitTests.Controllers
@@ -30,7 +31,7 @@ namespace UnitTests.Controllers
             TestControllersActionModel.TriggerStart();
         }
 
-        protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+        protected override async ValueTask OnFlowAsync(CancellationToken cancellationToken)
         {
             TestControllersActionModel.TriggerFlow();
 
@@ -40,7 +41,7 @@ namespace UnitTests.Controllers
             Complete(new TestEmptyControllerResult(Args.InputString));
         }
 
-        protected async UniTask StartChildControllersAsync(CancellationToken cancellationToken)
+        protected async ValueTask StartChildControllersAsync(CancellationToken cancellationToken)
         {
             var launchers = GetAsyncLaunchers();
             Assert.AreEqual(Args.ChildControllersGuids.Count, launchers.Count);
@@ -59,9 +60,9 @@ namespace UnitTests.Controllers
             TestControllersActionModel.TriggerStop();
         }
 
-        private List<Func<string, CancellationToken, UniTask>> GetAsyncLaunchers()
+        private List<Func<string, CancellationToken, ValueTask>> GetAsyncLaunchers()
         {
-            return new List<Func<string, CancellationToken, UniTask>>
+            return new List<Func<string, CancellationToken, ValueTask>>
             {
                 StartChildControllersAsync1,
                 StartChildControllersAsync2,
@@ -71,27 +72,27 @@ namespace UnitTests.Controllers
             };
         }
 
-        private async UniTask StartChildControllersAsync1(string childControllerGuid, CancellationToken cancellationToken)
+        private async ValueTask StartChildControllersAsync1(string childControllerGuid, CancellationToken cancellationToken)
         {
             await ExecuteAndWaitResultAsync<ActionModelTestChildControllerWithResult1, string>(childControllerGuid, cancellationToken);
         }
 
-        private async UniTask StartChildControllersAsync2(string childControllerGuid, CancellationToken cancellationToken)
+        private async ValueTask StartChildControllersAsync2(string childControllerGuid, CancellationToken cancellationToken)
         {
             await ExecuteAndWaitResultAsync<ActionModelTestChildControllerWithResult2, string>(childControllerGuid, cancellationToken);
         }
 
-        private async UniTask StartChildControllersAsync3(string childControllerGuid, CancellationToken cancellationToken)
+        private async ValueTask StartChildControllersAsync3(string childControllerGuid, CancellationToken cancellationToken)
         {
             await ExecuteAndWaitResultAsync<ActionModelTestChildControllerWithResult3, string>(childControllerGuid, cancellationToken);
         }
 
-        private async UniTask StartChildControllersAsync4(string childControllerGuid, CancellationToken cancellationToken)
+        private async ValueTask StartChildControllersAsync4(string childControllerGuid, CancellationToken cancellationToken)
         {
             await ExecuteAndWaitResultAsync<ActionModelTestChildControllerWithResult4, string>(childControllerGuid, cancellationToken);
         }
 
-        private async UniTask StartChildControllersAsync5(string childControllerGuid, CancellationToken cancellationToken)
+        private async ValueTask StartChildControllersAsync5(string childControllerGuid, CancellationToken cancellationToken)
         {
             await ExecuteAndWaitResultAsync<ActionModelTestChildControllerWithResult5, string>(childControllerGuid, cancellationToken);
         }

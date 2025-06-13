@@ -1,6 +1,7 @@
 using System.Threading;
+using System.Threading.Tasks;
 using Playtika.Controllers;
-using Cysharp.Threading.Tasks;
+using UnityEngine;
 using Playtika.Controllers.Substitute;
 
 namespace UnitTests.Controllers
@@ -28,7 +29,7 @@ namespace UnitTests.Controllers
             testRootController.Execute<T, TArg>(arg);
         }
 
-        public static UniTask LaunchAsync<T>(
+        public static ValueTask LaunchAsync<T>(
             IControllerFactory controllerFactory,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<EmptyControllerResult>, IController<EmptyControllerArg>
@@ -51,7 +52,7 @@ namespace UnitTests.Controllers
             testRootController.Execute<T, TArg>(arg);
         }
 
-        public static UniTask LaunchAsync<T, TArg>(
+        public static ValueTask LaunchAsync<T, TArg>(
             TArg arg,
             IControllerFactory controllerFactory,
             CancellationToken cancellationToken)
@@ -63,7 +64,7 @@ namespace UnitTests.Controllers
             return testRootController.ExecuteAndWaitResultAsync<T, TArg>(arg, cancellationToken);
         }
 
-        public static UniTask<TResult> LaunchAsync<T, TArg, TResult>(
+        public static ValueTask<TResult> LaunchAsync<T, TArg, TResult>(
             TArg arg,
             IControllerFactory controllerFactory,
             CancellationToken cancellationToken)

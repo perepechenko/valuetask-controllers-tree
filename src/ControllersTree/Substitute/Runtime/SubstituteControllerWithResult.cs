@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Playtika.Controllers.Substitute
 {
@@ -36,12 +37,12 @@ namespace Playtika.Controllers.Substitute
             }
         }
         
-        protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+        protected override async ValueTask OnFlowAsync(CancellationToken cancellationToken)
         {
             await base.OnFlowAsync(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
 
-            await UniTask.Yield(cancellationToken);
+            await Task.Yield();
             cancellationToken.ThrowIfCancellationRequested();
 
             switch (_behaviour)

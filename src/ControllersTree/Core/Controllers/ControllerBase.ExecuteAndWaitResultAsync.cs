@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Playtika.Controllers
 {
@@ -16,8 +17,9 @@ namespace Playtika.Controllers
         /// <typeparam name="T">The type of the controller to execute. Must implement IControllerWithResult.</typeparam>
         /// <param name="factory">The factory to use when creating the controller.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-        protected async UniTask ExecuteAndWaitResultAsync<T>(
-            [NotNull] IControllerFactory factory,
+        protected async ValueTask ExecuteAndWaitResultAsync<T>(
+            [NotNull]
+            IControllerFactory factory,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<EmptyControllerResult>, IController<EmptyControllerArg>
         {
@@ -34,7 +36,7 @@ namespace Playtika.Controllers
         /// </summary>
         /// <typeparam name="T">The type of the controller to execute. Must implement IControllerWithResult.</typeparam>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-        protected async UniTask ExecuteAndWaitResultAsync<T>(
+        protected async ValueTask ExecuteAndWaitResultAsync<T>(
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<EmptyControllerResult>, IController<EmptyControllerArg>
         {
@@ -51,7 +53,7 @@ namespace Playtika.Controllers
         /// <typeparam name="T">The type of the controller to execute. Must implement IControllerWithResult&lt;TResult&gt;.</typeparam>
         /// <typeparam name="TResult">The type of the result expected from the controller's execution.</typeparam>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-        protected UniTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(
+        protected ValueTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<TResult>, IController<EmptyControllerArg>
         {
@@ -69,7 +71,7 @@ namespace Playtika.Controllers
         /// <typeparam name="TResult">The type of the result expected from the controller's execution.</typeparam>
         /// <param name="factory">The factory to use when creating the controller.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-        protected UniTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(
+        protected ValueTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(
             IControllerFactory factory,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<TResult>, IController<EmptyControllerArg>
@@ -89,9 +91,11 @@ namespace Playtika.Controllers
         /// <param name="arg">The argument to pass to the controller.</param>
         /// <param name="factory">The factory to use when creating the controller.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-        protected async UniTask ExecuteAndWaitResultAsync<T, TArg>(
-            [NotNull] TArg arg,
-            [NotNull] IControllerFactory factory,
+        protected async ValueTask ExecuteAndWaitResultAsync<T, TArg>(
+            [NotNull]
+            TArg arg,
+            [NotNull]
+            IControllerFactory factory,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<EmptyControllerResult>, IController<TArg>
         {
@@ -111,8 +115,9 @@ namespace Playtika.Controllers
         /// <typeparam name="TArg">The type of the argument required by the controller.</typeparam>
         /// <param name="arg">The argument to pass to the controller.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-        protected async UniTask ExecuteAndWaitResultAsync<T, TArg>(
-            [NotNull] TArg arg,
+        protected async ValueTask ExecuteAndWaitResultAsync<T, TArg>(
+            [NotNull]
+            TArg arg,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<EmptyControllerResult>, IController<TArg>
         {
@@ -132,9 +137,11 @@ namespace Playtika.Controllers
         /// <param name="arg">The argument to pass to the controller.</param>
         /// <param name="factory">The factory to use when creating the controller.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-        protected UniTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(
-            [NotNull] TArg arg,
-            [NotNull] IControllerFactory factory,
+        protected ValueTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(
+            [NotNull]
+            TArg arg,
+            [NotNull]
+            IControllerFactory factory,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<TResult>, IController<TArg>
         {
@@ -155,8 +162,9 @@ namespace Playtika.Controllers
         /// <typeparam name="TResult">The type of the result expected from the controller's execution.</typeparam>
         /// <param name="arg">The argument to pass to the controller.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
-        protected UniTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(
-            [NotNull] TArg arg,
+        protected ValueTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(
+            [NotNull]
+            TArg arg,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<TResult>, IController<TArg>
         {
@@ -166,34 +174,34 @@ namespace Playtika.Controllers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async UniTask<TResult> ExecuteAndWaitResultAsyncInternal<T, TResult>(
+        private async ValueTask<TResult> ExecuteAndWaitResultAsyncInternal<T, TResult>(
             IControllerFactory factory = default,
             CancellationToken cancellationToken = default)
             where T : class, IControllerWithResult<TResult>
         {
             using var controller = ExecuteInternal<T>(factory, cancellationToken);
-            return await WaitResultAsync<TResult>((IControllerWithResult<TResult>) controller, cancellationToken);
+            return await WaitResultAsync<TResult>((IControllerWithResult<TResult>)controller, cancellationToken);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async UniTask<TResult> ExecuteAndWaitResultAsyncInternal<T, TArg, TResult>(
+        private async ValueTask<TResult> ExecuteAndWaitResultAsyncInternal<T, TArg, TResult>(
             TArg arg = default,
             IControllerFactory factory = default,
             CancellationToken cancellationToken = default)
             where T : class, IControllerWithResult<TResult>, IController<TArg>
         {
             using var controller = ExecuteInternal<T, TArg>(arg, factory, cancellationToken);
-            return await WaitResultAsync<TResult>((IControllerWithResult<TResult>) controller, cancellationToken);
+            return await WaitResultAsync<TResult>((IControllerWithResult<TResult>)controller, cancellationToken);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async UniTask<TResult> WaitResultAsync<TResult>(
+        private async ValueTask<TResult> WaitResultAsync<TResult>(
             IControllerWithResult<TResult> controller,
             CancellationToken cancellationToken)
         {
             try
             {
-                controller.FlowAsync(controller.CancellationToken).Forget(controller.FailInternal);
+                _ = SafeFlowAsync<TResult>(controller);
                 return await controller.GetResult(cancellationToken);
             }
             catch (Exception exception)
@@ -204,6 +212,18 @@ namespace Playtika.Controllers
             finally
             {
                 RemoveChild(controller);
+            }
+        }
+
+        private async ValueTask SafeFlowAsync<TResult>(IControllerWithResult<TResult> controller)
+        {
+            try
+            {
+                await controller.FlowAsync(controller.CancellationToken);
+            }
+            catch (Exception ex)
+            {
+                controller.FailInternal(ex);
             }
         }
     }

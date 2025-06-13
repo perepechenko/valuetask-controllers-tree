@@ -2,8 +2,8 @@
 {
     public abstract class ControllerWithResultBase : ControllerWithResultBase<EmptyControllerArg, EmptyControllerResult>
     {
-        protected ControllerWithResultBase(IControllerFactory controllerFactory)
-            : base(controllerFactory)
+        protected ControllerWithResultBase(IControllerFactory controllerEnvironment)
+            : base(controllerEnvironment)
         {
         }
 

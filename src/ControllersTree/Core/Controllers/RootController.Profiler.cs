@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Profiling;
 using UnityEngine.Profiling;
@@ -31,14 +31,14 @@ namespace Playtika.Controllers
 
         partial void ProfileOnStart()
         {
-            MadeSnapshot(CancellationToken).Forget();
+            _ = MadeSnapshot(CancellationToken);
         }
 
-        private async UniTaskVoid MadeSnapshot(CancellationToken cancellationToken)
+        private async Task MadeSnapshot(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await UniTask.Yield(PlayerLoopTiming.LastUpdate);
+                await Task.Yield();
                 PushToProfilerStream();
             }
         }

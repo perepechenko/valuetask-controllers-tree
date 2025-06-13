@@ -2,7 +2,6 @@
     "name": "Playtika.Controllers",
     "rootNamespace": "",
     "references": [
-        "UniTask",
         "Unity.Profiling.Core"
     ],
     "includePlatforms": [],

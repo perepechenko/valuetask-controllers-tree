@@ -28,13 +28,9 @@ Install via UPM and the Git URL:
 Navigate to your project Packages folder and modify the manifest.json file.
 Add this line below the "dependencies": { line
 ```json
-"com.playtika.controllers-tree": "https://github.com/PlaytikaOSS/controllers-tree.git?path=src/ControllersTree#v1.1.0",
+"com.playtika.valuetask-controllers-tree": "https://github.com/perepechenko/valuetask-controllers-tree.git",
 ```
 Reload the project and UPM will install the package.
-
-
-## Dependencies
-The package uses [UniTask](https://github.com/Cysharp/UniTask) for managing async flows and async/await integration.
 
 
 ## Why HMVC/HMVP?
@@ -230,7 +226,7 @@ Usually, a feature starts with the `FeatureRootController` which spawns child co
 public class FeatureRootController : ControllerWithResultBase
 {
     ...
-    protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+    protected override async ValueTask OnFlowAsync(CancellationToken cancellationToken)
     {
         try
         {
@@ -251,7 +247,7 @@ public class FeatureController2b : ControllerWithResultBase
 {
     ...
 
-    protected override UniTask OnFlowAsync(CancellationToken cancellationToken)
+    protected override ValueTask OnFlowAsync(CancellationToken cancellationToken)
     {
         throw new Exception("Exception in FeatureController2b");
     }
@@ -273,7 +269,7 @@ public class FeatureController2 : ControllerWithResultBase
 {
     ...
 
-    protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+    protected override async ValueTask OnFlowAsync(CancellationToken cancellationToken)
     {
         try
         {

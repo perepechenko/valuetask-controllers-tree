@@ -1,6 +1,7 @@
 using System.Threading;
+using System.Threading.Tasks;
 using Playtika.Controllers;
-using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace UnitTests.Controllers
 {
@@ -13,7 +14,7 @@ namespace UnitTests.Controllers
         {
         }
 
-        protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+        protected override async ValueTask OnFlowAsync(CancellationToken cancellationToken)
         {
             TestControllersActionModel.TriggerFlow();
 

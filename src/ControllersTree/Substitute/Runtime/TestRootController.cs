@@ -1,5 +1,6 @@
 using System.Threading;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Playtika.Controllers.Substitute
 {
@@ -25,21 +26,21 @@ namespace Playtika.Controllers.Substitute
             base.Execute<T, TArg>(arg);
         }
 
-        public new UniTask ExecuteAndWaitResultAsync<T>(
+        public new ValueTask ExecuteAndWaitResultAsync<T>(
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<EmptyControllerResult>, IController<EmptyControllerArg>
         {
             return base.ExecuteAndWaitResultAsync<T>(cancellationToken);
         }
 
-        public new UniTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(
+        public new ValueTask<TResult> ExecuteAndWaitResultAsync<T, TResult>(
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<TResult>, IController<EmptyControllerArg>
         {
             return base.ExecuteAndWaitResultAsync<T, TResult>(cancellationToken);
         }
 
-        public new UniTask ExecuteAndWaitResultAsync<T, TArg>(
+        public new ValueTask ExecuteAndWaitResultAsync<T, TArg>(
             TArg arg,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<EmptyControllerResult>, IController<TArg>
@@ -49,7 +50,7 @@ namespace Playtika.Controllers.Substitute
                 cancellationToken);
         }
 
-        public new UniTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(
+        public new ValueTask<TResult> ExecuteAndWaitResultAsync<T, TArg, TResult>(
             TArg arg,
             CancellationToken cancellationToken)
             where T : class, IControllerWithResult<TResult>, IController<TArg>

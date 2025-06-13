@@ -1,6 +1,6 @@
 {
-    "name": "com.playtika.controllers-tree",
-    "displayName": "ControllersTree",
+    "name": "com.playtika.valuetask-controllers-tree",
+    "displayName": "ControllersTree (ValueTask)",
     "version": "1.1.0",
     "unity": "2021.3",
     "description": "Framework for organising game logic into scalable, maintainable hierarchies of controllers.",

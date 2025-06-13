@@ -1,15 +1,19 @@
 {
     "name": "Playtika.Controllers.Substitute.Tests",
+    "rootNamespace": "",
     "references": [
         "Playtika.Controllers",
-        "Playtika.Controllers.Substitute",
-        "UniTask"
+        "Playtika.Controllers.Substitute"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "testAssemblies": true
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

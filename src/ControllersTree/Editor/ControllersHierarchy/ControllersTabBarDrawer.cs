@@ -6,9 +6,15 @@ namespace Playtika.Controllers.Editor
 {
     public class ControllersTabBarDrawer
     {
+        private const float TabWidth = 128f;
+        private const float TabHeight = 24f;
+        private const float CloseButtonSize = 16f;
+        private const float CloseButtonPadding = 4f;
+
         private readonly ControllersTreeViewModel _model;
 
         private List<ControllerTabData> _tabData;
+        private readonly List<ControllerTabData> _pendingAddData = new List<ControllerTabData>();
         private int _index = 0;
         private int? _removeIndex;
         private Vector2 _scrollPosition;
@@ -28,7 +34,7 @@ namespace Playtika.Controllers.Editor
 
         public void AddData(ControllerTabData tabData)
         {
-            _tabData.Add(tabData);
+            _pendingAddData.Add(tabData);
         }
 
         private void RemoveData(int index)
@@ -53,6 +59,8 @@ namespace Playtika.Controllers.Editor
                 return;
             }
 
+            ApplyPendingChanges();
+
             using (var changeScope = new EditorGUI.ChangeCheckScope())
             {
                 var index = _index;
@@ -67,22 +75,38 @@ namespace Playtika.Controllers.Editor
 
                 _tabData[_index].TabDrawCallback?.Invoke();
             }
+        }
+
+        public void Reload()
+        {
+            if (_tabData == null || _tabData.Count == 0 || _removeIndex.HasValue || _pendingAddData.Count > 0)
+            {
+                return;
+            }
+
+            _tabData[_index].TabReloadCallback();
+        }
+
+        private void ApplyPendingChanges()
+        {
+            if (Event.current == null || Event.current.type != EventType.Layout)
+            {
+                return;
+            }
 
             if (_removeIndex.HasValue)
             {
                 _tabData.RemoveAt(_removeIndex.Value);
                 _removeIndex = null;
             }
-        }
 
-        public void Reload()
-        {
-            if (_tabData == null || _tabData.Count == 0 || _removeIndex.HasValue)
+            if (_pendingAddData.Count > 0)
             {
-                return;
+                _tabData.AddRange(_pendingAddData);
+                _pendingAddData.Clear();
             }
 
-            _tabData[_index].TabReloadCallback();
+            Select(_index);
         }
 
         private void DrawTabBar()
@@ -99,22 +123,45 @@ namespace Playtika.Controllers.Editor
 
         private void DrawTabButton(int index)
         {
-            using var scope = new GUILayout.HorizontalScope(GUI.skin.box);
-            var color = GUI.backgroundColor;
-            GUI.backgroundColor = Color.clear;
+            var tabData = _tabData[index];
+            var tabStyle = GUI.skin.box ?? EditorStyles.helpBox;
+            var rect = GUILayoutUtility.GetRect(
+                TabWidth,
+                TabHeight,
+                tabStyle,
+                GUILayout.Width(TabWidth),
+                GUILayout.Height(TabHeight));
 
-            if (GUILayout.Button(_tabData[index].TabContent, GUI.skin.box, GUILayout.Height(20), GUILayout.Width(128)))
+            Rect? closeButtonRect = null;
+            if (tabData.IsClosable)
             {
-                _index = index;
+                closeButtonRect = new Rect(
+                    rect.xMax - CloseButtonSize - CloseButtonPadding,
+                    rect.y + (rect.height - CloseButtonSize) * 0.5f,
+                    CloseButtonSize,
+                    CloseButtonSize);
             }
 
+            var currentEvent = Event.current;
+            if (currentEvent.type == EventType.MouseDown &&
+                currentEvent.button == 0 &&
+                rect.Contains(currentEvent.mousePosition) &&
+                (closeButtonRect == null || !closeButtonRect.Value.Contains(currentEvent.mousePosition)))
+            {
+                _index = index;
+                GUI.changed = true;
+                currentEvent.Use();
+            }
+
+            var color = GUI.backgroundColor;
+            GUI.backgroundColor = Color.clear;
+            GUI.Box(rect, tabData.TabContent, tabStyle);
             GUI.backgroundColor = color;
 
-            if (_tabData[index].IsClosable)
+            if (closeButtonRect.HasValue)
             {
-                using var verticalScope = new GUILayout.VerticalScope(GUILayout.Height(22), GUILayout.Width(20));
-                GUILayout.Space(4);
-                if (GUILayout.Button("", _model.CloseButtonStyle))
+                var closeButtonStyle = _model.CloseButtonStyle ?? EditorStyles.miniButton;
+                if (GUI.Button(closeButtonRect.Value, GUIContent.none, closeButtonStyle))
                 {
                     RemoveData(index);
                 }
@@ -123,7 +170,6 @@ namespace Playtika.Controllers.Editor
             var colorRect = _index == index
                                 ? ControllersTreeHelper.SelectedColor
                                 : ControllersTreeHelper.UnselectedColor;
-            var rect = GUILayoutUtility.GetLastRect();
             var lineRect = rect;
             lineRect.height = 2;
             var center = lineRect.center;
